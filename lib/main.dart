@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         SplashScreen.routeName:(context) => SplashScreen(),
         HomeScreen.routeName:(context) => HomeScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }

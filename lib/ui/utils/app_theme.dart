@@ -16,6 +16,9 @@ abstract class AppTheme {
   TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.lightBlack);
 
   static ThemeData lightTheme = ThemeData(
+  dividerTheme: DividerThemeData(
+    thickness: 3,color: AppColors.primiary
+  ),
     primaryColor: AppColors.primiary,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.primiary,
@@ -30,9 +33,16 @@ abstract class AppTheme {
       selectedItemColor: AppColors.primiary,
       unselectedItemColor: AppColors.grey,
 
-    )
-  );
-
+    ),
+  scaffoldBackgroundColor: AppColors.accent,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        shape: StadiumBorder(
+            side: BorderSide(
+              color: AppColors.white,
+              width: 4,
+            )
+  ),
+  ));
   static ThemeData darkTheme =ThemeData();
 
 
