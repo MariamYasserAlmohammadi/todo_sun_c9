@@ -1,45 +1,113 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_sun_c9/models/todo_dm.dart';
+import 'package:todo_sun_c9/ui/providers/list_provider.dart';
 import 'package:todo_sun_c9/ui/utils/app_colors.dart';
 import 'package:todo_sun_c9/ui/utils/app_theme.dart';
 import 'package:todo_sun_c9/ui/widgets/my_text_field.dart';
 
-class AddBottomSheet extends StatelessWidget {
+class AddBottomSheet extends StatefulWidget {
+  @override
+  State<AddBottomSheet> createState() => _AddBottomSheetState();
+}
+
+class _AddBottomSheetState extends State<AddBottomSheet> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+late ListProvider provider;
   @override
   Widget build(BuildContext context) {
+    provider =Provider.of(context);
     // TODO: implement build
     return Container(
-      padding: EdgeInsets.all(12),
-      height: MediaQuery.of(context).size.height * 0.4,
+      padding: const EdgeInsets.all(12),
+      height: MediaQuery
+          .of(context)
+          .size
+          .height * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
+          const Text(
             "Add New task",
             textAlign: TextAlign.center,
             style: AppTheme.bottomSheetTitleTextStyle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          MyTextField(hintText: "Enter task Title"),
-          SizedBox(
+          MyTextField(
+            hintText: "Enter task Title", controller: titleController,),
+          const SizedBox(
             height: 8,
           ),
-          MyTextField(hintText: "Enter task description"),
-          SizedBox(
+          MyTextField(hintText: "Enter task description",
+            controller: descriptionController,),
+          const SizedBox(
             height: 16,
           ),
           Text("Select Date",
               style: AppTheme.bottomSheetTitleTextStyle
                   .copyWith(fontWeight: FontWeight.w600)),
-          Text("24/9/2023",
-              textAlign: TextAlign.center,
-              style: AppTheme.bottomSheetTitleTextStyle.copyWith(
-                  fontWeight: FontWeight.normal, color: AppColors.grey)),
-          ElevatedButton(onPressed: () {}, child: Text("Add")),
+          InkWell(
+            onTap: () {
+              showMyDatePicker();
+            },
+            child: Text(
+                "${selectedDate.day}/${selectedDate.month}/${selectedDate
+                    .year}",
+                textAlign: TextAlign.center,
+                style: AppTheme.bottomSheetTitleTextStyle.copyWith(
+                    fontWeight: FontWeight.normal, color: AppColors.grey)),
+          ),
+          ElevatedButton(onPressed: () {
+            addTodoFireStore();
+          }, child: const Text("Add")),
         ],
       ),
     );
   }
+
+  void addTodoFireStore() {
+CollectionReference todosCollectionRef =
+FirebaseFirestore.instance.collection(TodoDM.collectionName);
+DocumentReference newEmptyDoc = todosCollectionRef.doc();
+newEmptyDoc.set({
+  "id":newEmptyDoc.id ,
+  "title" :titleController.text ,
+  "description": descriptionController.text,
+  "date": selectedDate,
+  "isDone": false ,}).timeout(Duration(milliseconds: 300),onTimeout: (){
+ provider.refreshTodoList();
+  Navigator.pop(context);
+  });
+// todosCollectionRef.add({
+//   "title" :titleController.text ,
+//   "description": descriptionController.text,
+//   "date": selectedDate,
+//   "id": ,
+//   "isDone": false ,
+//
+// });
+  }
+
+  void showMyDatePicker() async {
+    selectedDate = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365))) ??
+        selectedDate;
+    setState(() {
+
+    });
+  }
+
 }
+
+///  Json -> java script object notation
+///  {key : value}
+///  key -> string
+///  value -> String , number , null ,timestamp , json , List<Json>
