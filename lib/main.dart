@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_sun_c9/ui/screens/auth/login/login_screen.dart';
+import 'package:todo_sun_c9/ui/screens/auth/register/register_screen.dart';
+import 'package:todo_sun_c9/ui/screens/edit/edit_screen.dart';
 
 import 'ui/providers/list_provider.dart';
 import 'ui/screens/home/home_screen.dart';
@@ -14,7 +17,7 @@ void main() async{
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  await FirebaseFirestore.instance.disableNetwork();
+ // await FirebaseFirestore.instance.disableNetwork();
   runApp( ChangeNotifierProvider(
       create: (_){
         return ListProvider();
@@ -35,6 +38,9 @@ class MyApp extends StatelessWidget {
       routes:{
         SplashScreen.routeName:(context) => SplashScreen(),
         HomeScreen.routeName:(context) => HomeScreen(),
+        LoginScreen.routeName:(context) => LoginScreen(),
+        RegisterScreen.routeName:(context) => RegisterScreen(),
+      EditScreen.routeName  :(buildcontext)=> EditScreen(),
       },
       initialRoute: HomeScreen.routeName,
     );

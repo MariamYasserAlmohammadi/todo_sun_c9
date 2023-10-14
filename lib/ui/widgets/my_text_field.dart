@@ -8,7 +8,7 @@ MyTextField({this.hintText,required this.controller});
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller ,
+      controller : controller ,
       decoration: InputDecoration(
         hintText: hintText,
       ),

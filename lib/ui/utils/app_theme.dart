@@ -34,7 +34,7 @@ abstract class AppTheme {
       unselectedItemColor: AppColors.grey,
 
     ),
-  scaffoldBackgroundColor: AppColors.accent,
+      scaffoldBackgroundColor: AppColors.accent,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         shape: StadiumBorder(
             side: BorderSide(

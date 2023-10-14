@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_sun_c9/ui/screens/home/tabs/settings_tab/settings_tab.dart';
 import 'package:todo_sun_c9/ui/utils/app_colors.dart';
 
-import '../bottom_sheets/add_bottom_sheet.dart';
+import '../../bottom_sheets/add_bottom_sheet.dart';
 import 'tabs/list_tab/list_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
             onTap: (index) {
               currentSelectedTabIndex = index;
-              print(index);
+             // print(index);
               setState(() {
 
               });
