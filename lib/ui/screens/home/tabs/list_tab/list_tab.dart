@@ -13,8 +13,9 @@ class ListTab extends StatefulWidget {
 }
 
 class _ListTabState extends State<ListTab> {
-late ListProvider provider;
-@override
+  late ListProvider provider;
+
+  @override
   void initState() {
     super.initState();
 
@@ -22,6 +23,7 @@ late ListProvider provider;
       provider.refreshTodoList();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     provider = Provider.of(context);
@@ -80,6 +82,4 @@ late ListProvider provider;
       ],
     );
   }
-
-
 }

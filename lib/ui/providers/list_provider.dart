@@ -1,8 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/todo_dm.dart';
+
 // extension MyDateExtension on DateTime{
 //   DateTime getDateOnly (){
 //     return DateTime(this.year ,this.month ,this.day);
@@ -10,7 +10,6 @@ import '../../models/todo_dm.dart';
 // }
 
 class ListProvider extends ChangeNotifier {
-
   List<TodoDM> todos = [];
   DateTime selectedDate = DateTime.now();
 
@@ -25,9 +24,8 @@ class ListProvider extends ChangeNotifier {
       return todoDm.toJson();
     });
     //snapshot لقطه من الداتا في وقت معين
-    QuerySnapshot<TodoDM> todoSnapshot = await todosCollection
-        .orderBy("date", descending: true)
-        .get();
+    QuerySnapshot<TodoDM> todoSnapshot =
+        await todosCollection.orderBy("date", descending: true).get();
 
     List<QueryDocumentSnapshot<TodoDM>> docs = todoSnapshot.docs;
     todos = docs.map((docSnapshot) {
@@ -60,10 +58,11 @@ class ListProvider extends ChangeNotifier {
     return todosCollection.doc(modal.id).update({
       'title': modal.title,
       'description': modal.description,
-      'date': modal.date});
+      'date': modal.date
+    });
   }
 
-  Future <void> deleteTodo(TodoDM modal) {
+  Future<void> deleteTodo(TodoDM modal) {
     CollectionReference<TodoDM> todosCollectionRef = FirebaseFirestore.instance
         .collection(TodoDM.collectionName)
         .withConverter<TodoDM>(fromFirestore: (docSnapShot, _) {
@@ -73,10 +72,8 @@ class ListProvider extends ChangeNotifier {
     }, toFirestore: (modal, _) {
       return modal.toJson();
     });
-   DocumentReference <TodoDM> itemDoc= todosCollectionRef.doc(modal.id);
-   return itemDoc.delete();
-
-
+    DocumentReference<TodoDM> itemDoc = todosCollectionRef.doc(modal.id);
+    return itemDoc.delete();
   }
 
 //   void setNewSelectedDay(DateTime selectedDay){

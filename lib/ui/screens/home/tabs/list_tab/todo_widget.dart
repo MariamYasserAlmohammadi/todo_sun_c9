@@ -10,13 +10,15 @@ import '../../../../providers/list_provider.dart';
 import '../../../edit/edit_screen.dart';
 
 class TodoWidget extends StatelessWidget {
-final TodoDM modal;
- TodoWidget({super.key, required this.modal});
-late ListProvider provider;
+  final TodoDM modal;
+
+  TodoWidget({super.key, required this.modal});
+
+  late ListProvider provider;
 
   @override
   Widget build(BuildContext context) {
-    provider =Provider.of(context);
+    provider = Provider.of(context);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -31,8 +33,7 @@ late ListProvider provider;
             SlidableAction(
               onPressed: (_) {
                 print("123456");
-            provider.deleteTodo(modal);
-
+                provider.deleteTodo(modal);
               },
               backgroundColor: Colors.red,
               foregroundColor: AppColors.white,
@@ -42,20 +43,20 @@ late ListProvider provider;
           ],
         ),
         child: InkWell(
-          onTap: (){
-            Navigator.pushNamed(context, EditScreen.routeName,arguments: modal  );
+          onTap: () {
+            Navigator.pushNamed(context, EditScreen.routeName,
+                arguments: modal);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             height: MediaQuery.of(context).size.height * 0.13,
-
             child: Row(
               children: [
                 const VerticalDivider(),
                 const SizedBox(
                   width: 12,
                 ),
-                 Expanded(
+                Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   PreferredSizeWidget buildAppBar() => AppBar(
         title: Text("To Do List"),
-    toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
       );
 
   Widget buildBottomNav() => BottomAppBar(
@@ -38,10 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
             onTap: (index) {
               currentSelectedTabIndex = index;
-             // print(index);
-              setState(() {
-
-              });
+              // print(index);
+              setState(() {});
             },
             currentIndex: currentSelectedTabIndex,
             items: [

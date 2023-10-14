@@ -16,17 +16,15 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-late ListProvider provider;
+  late ListProvider provider;
+
   @override
   Widget build(BuildContext context) {
-    provider =Provider.of(context);
+    provider = Provider.of(context);
     // TODO: implement build
     return Container(
       padding: const EdgeInsets.all(12),
-      height: MediaQuery
-          .of(context)
-          .size
-          .height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -39,12 +37,16 @@ late ListProvider provider;
             height: 16,
           ),
           MyTextField(
-            hintText: "Enter task Title", controller: titleController,),
+            hintText: "Enter task Title",
+            controller: titleController,
+          ),
           const SizedBox(
             height: 8,
           ),
-          MyTextField(hintText: "Enter task description",
-            controller: descriptionController,),
+          MyTextField(
+            hintText: "Enter task description",
+            controller: descriptionController,
+          ),
           const SizedBox(
             height: 16,
           ),
@@ -56,33 +58,35 @@ late ListProvider provider;
               showMyDatePicker();
             },
             child: Text(
-                "${selectedDate.day}/${selectedDate.month}/${selectedDate
-                    .year}",
+                "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
                 textAlign: TextAlign.center,
                 style: AppTheme.bottomSheetTitleTextStyle.copyWith(
                     fontWeight: FontWeight.normal, color: AppColors.grey)),
           ),
-          ElevatedButton(onPressed: () {
-            addTodoFireStore();
-          }, child: const Text("Add")),
+          ElevatedButton(
+              onPressed: () {
+                addTodoFireStore();
+              },
+              child: const Text("Add")),
         ],
       ),
     );
   }
 
   void addTodoFireStore() {
-CollectionReference todosCollectionRef =
-FirebaseFirestore.instance.collection(TodoDM.collectionName);
-DocumentReference newEmptyDoc = todosCollectionRef.doc();
-newEmptyDoc.set({
-  "id":newEmptyDoc.id ,
-  "title" :titleController.text ,
-  "description": descriptionController.text,
-  "date": selectedDate,
-  "isDone": false ,}).timeout(Duration(milliseconds: 300),onTimeout: (){
- provider.refreshTodoList();
-  Navigator.pop(context);
-  });
+    CollectionReference todosCollectionRef =
+        FirebaseFirestore.instance.collection(TodoDM.collectionName);
+    DocumentReference newEmptyDoc = todosCollectionRef.doc();
+    newEmptyDoc.set({
+      "id": newEmptyDoc.id,
+      "title": titleController.text,
+      "description": descriptionController.text,
+      "date": selectedDate,
+      "isDone": false,
+    }).timeout(Duration(milliseconds: 300), onTimeout: () {
+      provider.refreshTodoList();
+      Navigator.pop(context);
+    });
 // todosCollectionRef.add({
 //   "title" :titleController.text ,
 //   "description": descriptionController.text,
@@ -95,16 +99,13 @@ newEmptyDoc.set({
 
   void showMyDatePicker() async {
     selectedDate = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 365))) ??
+            context: context,
+            initialDate: selectedDate,
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 365))) ??
         selectedDate;
-    setState(() {
-
-    });
+    setState(() {});
   }
-
 }
 
 ///  Json -> java script object notation

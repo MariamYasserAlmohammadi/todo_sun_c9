@@ -28,11 +28,8 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    provider =Provider.of(context);
-    modal = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as TodoDM;
+    provider = Provider.of(context);
+    modal = ModalRoute.of(context)!.settings.arguments as TodoDM;
     selectedDate = modal.date;
     return Scaffold(
       appBar: AppBar(
@@ -44,48 +41,27 @@ class _EditScreenState extends State<EditScreen> {
       body: Stack(
         children: [
           Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.1,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            height: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Theme
-                  .of(context)
-                  .primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           Container(
-            margin: EdgeInsets.all(MediaQuery
-                .of(context)
-                .size
-                .height * 0.02),
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.9,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.7,
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.7,
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Container(
               padding: const EdgeInsets.all(12),
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.4,
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-
                     const Text(
                       "Edit task",
                       textAlign: TextAlign.center,
@@ -95,11 +71,10 @@ class _EditScreenState extends State<EditScreen> {
                       height: 24,
                     ),
                     TextFormField(
-                      onChanged: (newValue){
+                      onChanged: (newValue) {
                         modal.title = newValue;
                       },
                       initialValue: modal.title,
-
                       decoration: InputDecoration(
                         hintText: "",
                       ),
@@ -123,11 +98,10 @@ class _EditScreenState extends State<EditScreen> {
                     //   controller: descriptionController  ,
                     // ),
                     TextFormField(
-                      onChanged: (newValue){
+                      onChanged: (newValue) {
                         modal.description = newValue;
                       },
                       initialValue: modal.description,
-
                       decoration: InputDecoration(
                         hintText: "",
                       ),
@@ -137,8 +111,7 @@ class _EditScreenState extends State<EditScreen> {
                     ),
                     Text("Select Date",
                         // textAlign: TextAlign.start,
-                        style:
-                        AppTheme.bottomSheetTitleTextStyle
+                        style: AppTheme.bottomSheetTitleTextStyle
                             .copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(
                       height: 24,
@@ -148,8 +121,7 @@ class _EditScreenState extends State<EditScreen> {
                         showMyDatePicker();
                       },
                       child: Text(
-                          "${modal.date.day}/${modal.date.month}/${modal.date
-                              .year}",
+                          "${modal.date.day}/${modal.date.month}/${modal.date.year}",
                           textAlign: TextAlign.center,
                           style: AppTheme.bottomSheetTitleTextStyle.copyWith(
                               fontWeight: FontWeight.normal,
@@ -161,22 +133,20 @@ class _EditScreenState extends State<EditScreen> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 64),
                       child: ElevatedButton(
-
                           style: ButtonStyle(
-                              padding: MaterialStateProperty.all(EdgeInsets
-                                  .symmetric(vertical: 16)),
-                              backgroundColor: MaterialStateProperty.all(
-                                  AppColors.primiary),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(vertical: 16)),
+                              backgroundColor:
+                                  MaterialStateProperty.all(AppColors.primiary),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(25)),
-                                  ))
-                          ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ))),
                           onPressed: () {
                             editTask();
-                          }
-                          , child: const Text("Save Changes")),
+                          },
+                          child: const Text("Save Changes")),
                     ),
                   ],
                 ),
@@ -192,26 +162,22 @@ class _EditScreenState extends State<EditScreen> {
 //
 // }
 
-
   void showMyDatePicker() async {
     var newSelectedDate = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)));
-    if(newSelectedDate!=null){
-      modal.date =newSelectedDate;
-      setState(() {
-
-      });
+    if (newSelectedDate != null) {
+      modal.date = newSelectedDate;
+      setState(() {});
     }
-
   }
 
   void editTask() {
-provider.editTodoDetails(modal).then((value) {
-Navigator.pop(context);
-provider.refreshTodoList();
-});
+    provider.editTodoDetails(modal).then((value) {
+      Navigator.pop(context);
+      provider.refreshTodoList();
+    });
   }
 }
