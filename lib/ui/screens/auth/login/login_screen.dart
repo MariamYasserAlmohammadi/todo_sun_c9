@@ -61,7 +61,7 @@ toolbarHeight: MediaQuery.of(context).size.height * 0.1,
               decoration: InputDecoration(
                   label: Text(
                     "Password",
-                  )
+                  ),
               ),
             ),
             SizedBox(height: 26,),

@@ -5,9 +5,11 @@ import 'package:todo_sun_c9/models/todo_dm.dart';
 import 'package:todo_sun_c9/ui/providers/list_provider.dart';
 import 'package:todo_sun_c9/ui/utils/app_colors.dart';
 import 'package:todo_sun_c9/ui/utils/app_theme.dart';
-import 'package:todo_sun_c9/ui/widgets/my_text_field.dart';
+import '../common/my_text_field.dart';
 
 class AddBottomSheet extends StatefulWidget {
+  const AddBottomSheet({super.key});
+
   @override
   State<AddBottomSheet> createState() => _AddBottomSheetState();
 }
@@ -17,7 +19,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   TextEditingController descriptionController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   late ListProvider provider;
-
+  var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     provider = Provider.of(context);
@@ -25,50 +27,54 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
     return Container(
       padding: const EdgeInsets.all(12),
       height: MediaQuery.of(context).size.height * 0.4,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            "Add New task",
-            textAlign: TextAlign.center,
-            style: AppTheme.bottomSheetTitleTextStyle,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          MyTextField(
-            hintText: "Enter task Title",
-            controller: titleController,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          MyTextField(
-            hintText: "Enter task description",
-            controller: descriptionController,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Text("Select Date",
-              style: AppTheme.bottomSheetTitleTextStyle
-                  .copyWith(fontWeight: FontWeight.w600)),
-          InkWell(
-            onTap: () {
-              showMyDatePicker();
-            },
-            child: Text(
-                "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
-                textAlign: TextAlign.center,
-                style: AppTheme.bottomSheetTitleTextStyle.copyWith(
-                    fontWeight: FontWeight.normal, color: AppColors.grey)),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                addTodoFireStore();
+      child: Form(
+        key: formKey,
+        child: Column(
+
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              "Add New task",
+              textAlign: TextAlign.center,
+              style: AppTheme.bottomSheetTitleTextStyle,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            MyTextField(
+              hintText: "Enter task Title",
+              controller: titleController,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            MyTextField(
+              hintText: "Enter task description",
+              controller: descriptionController,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text("Select Date",
+                style: AppTheme.bottomSheetTitleTextStyle
+                    .copyWith(fontWeight: FontWeight.w600)),
+            InkWell(
+              onTap: () {
+                showMyDatePicker();
               },
-              child: const Text("Add")),
-        ],
+              child: Text(
+                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                  textAlign: TextAlign.center,
+                  style: AppTheme.bottomSheetTitleTextStyle.copyWith(
+                      fontWeight: FontWeight.normal, color: AppColors.grey)),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  addTodoFireStore();
+                },
+                child: const Text("Add")),
+          ],
+        ),
       ),
     );
   }

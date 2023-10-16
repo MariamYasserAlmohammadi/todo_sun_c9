@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_sun_c9/ui/common/my_text_form_field.dart';
 import 'package:todo_sun_c9/ui/providers/list_provider.dart';
 import 'package:todo_sun_c9/ui/utils/app_colors.dart';
 import 'package:todo_sun_c9/ui/utils/app_theme.dart';
 
 import '../../../models/todo_dm.dart';
-import '../../widgets/my_text_field.dart';
-import '../../widgets/my_text_form_field.dart';
+
 
 class EditScreen extends StatefulWidget {
   static const String routeName = "editscreen";
@@ -76,36 +76,30 @@ class _EditScreenState extends State<EditScreen> {
                       },
                       initialValue: modal.title,
                       decoration: InputDecoration(
-                        hintText: "",
                       ),
                     ),
                     // MyTextFormField(
-                    //   hintText: "Enter task Title",
-                    //   initialValue: todoDM.title,
-                    //  controller: titleController,
-                    //  // text: todoDM.title,
+                    //   textOnChange: modal.title,
+                    //   initialValue: modal.title,
+                    //   textLabel: "Enter Task Title",
                     //
-                    //   // controller: todoDM.title as TextEditingController,
                     // ),
-
                     const SizedBox(
                       height: 24,
                     ),
-                    // MyTextFormField(
-                    //   initialValue: todoDM.description,
-                    //   hintText: "Enter task description",
-                    //  //  text: todoDM.description,
-                    //   controller: descriptionController  ,
-                    // ),
                     TextFormField(
                       onChanged: (newValue) {
                         modal.description = newValue;
                       },
                       initialValue: modal.description,
                       decoration: InputDecoration(
-                        hintText: "",
                       ),
                     ),
+
+                    // MyTextFormField(
+                    //     textOnChange:  modal.description,
+                    //     initialValue:  modal.description,
+                    //   textLabel: "Enter Task description",),
                     const SizedBox(
                       height: 32,
                     ),
@@ -137,7 +131,7 @@ class _EditScreenState extends State<EditScreen> {
                               padding: MaterialStateProperty.all(
                                   EdgeInsets.symmetric(vertical: 16)),
                               backgroundColor:
-                                  MaterialStateProperty.all(AppColors.primiary),
+                                  MaterialStateProperty.all(AppColors.primary),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                 borderRadius:

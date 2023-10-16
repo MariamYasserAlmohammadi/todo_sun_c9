@@ -9,13 +9,26 @@ import 'package:todo_sun_c9/ui/utils/app_theme.dart';
 import '../../../../providers/list_provider.dart';
 import '../../../edit/edit_screen.dart';
 
-class TodoWidget extends StatelessWidget {
+
+class TodoWidget extends StatefulWidget {
   final TodoDM modal;
 
   TodoWidget({super.key, required this.modal});
 
+  @override
+  State<TodoWidget> createState() => _TodoWidgetState();
+}
+
+class _TodoWidgetState extends State<TodoWidget> {
   late ListProvider provider;
 
+  // void initState() {
+  //   super.initState();
+  //
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     provider.refreshTodoList();
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     provider = Provider.of(context);
@@ -28,12 +41,11 @@ class TodoWidget extends StatelessWidget {
       child: Slidable(
         startActionPane: ActionPane(
           extentRatio: 0.25,
-          motion: StretchMotion(),
+          motion: const StretchMotion(),
           children: [
             SlidableAction(
               onPressed: (_) {
-                print("123456");
-                provider.deleteTodo(modal);
+                provider.deleteTodo(widget.modal);
               },
               backgroundColor: Colors.red,
               foregroundColor: AppColors.white,
@@ -45,7 +57,7 @@ class TodoWidget extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, EditScreen.routeName,
-                arguments: modal);
+                arguments: widget.modal);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -62,11 +74,11 @@ class TodoWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        modal.title,
+                        widget.modal.title,
                         style: AppTheme.taskTitleTextStyle,
                       ),
                       Text(
-                        modal.description,
+                        widget.modal.description,
                         style: AppTheme.taskDescriptionTextStyle,
                       )
                     ],
@@ -74,8 +86,8 @@ class TodoWidget extends StatelessWidget {
                 ),
                 Container(
                     decoration: BoxDecoration(
-                      color: AppColors.primiary,
-                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -90,18 +102,4 @@ class TodoWidget extends StatelessWidget {
       ),
     );
   }
-// Future <void> deleteTodo(TodoDM modal) {
-//   CollectionReference<TodoDM> todosCollectionRef = FirebaseFirestore.instance
-//       .collection(TodoDM.collectionName)
-//       .withConverter<TodoDM>(fromFirestore: (docSnapShot, _) {
-//     Map json = docSnapShot.data() as Map;
-//     TodoDM todo = TodoDM.fromJson(json);
-//     return todo;
-//   }, toFirestore: (modal, _) {
-//     return modal.toJson();
-//   });
-//   DocumentReference <TodoDM> itemDoc= todosCollectionRef.doc(modal.id);
-//   return itemDoc.delete();
-//
-// }
 }

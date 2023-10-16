@@ -8,7 +8,7 @@ import 'package:todo_sun_c9/ui/screens/edit/edit_screen.dart';
 
 import 'ui/providers/list_provider.dart';
 import 'ui/screens/home/home_screen.dart';
-import 'ui/screens/home/splash_screen.dart';
+import 'ui/screens/home/splah/splash_screen.dart';
 import 'ui/utils/app_theme.dart';
 
 
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName:(context) => RegisterScreen(),
       EditScreen.routeName  :(buildcontext)=> EditScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

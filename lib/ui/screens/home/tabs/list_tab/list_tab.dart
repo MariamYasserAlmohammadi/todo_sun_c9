@@ -33,7 +33,7 @@ class _ListTabState extends State<ListTab> {
 
     return Column(
       children: [
-        SizedBox(
+        Container(
           height: MediaQuery.of(context).size.height * 0.12,
           child: Stack(
             children: [
@@ -42,7 +42,7 @@ class _ListTabState extends State<ListTab> {
                   Expanded(
                       flex: 3,
                       child: Container(
-                        color: AppColors.primiary,
+                        color: AppColors.primary,
                       )),
                   Expanded(
                       flex: 7,
@@ -61,12 +61,12 @@ class _ListTabState extends State<ListTab> {
                 },
                 leftMargin: 20,
                 monthColor: AppColors.white,
-                dayColor: AppColors.primiary,
-                activeDayColor: AppColors.primiary,
+                dayColor: AppColors.primary,
+                activeDayColor: AppColors.primary,
                 activeBackgroundDayColor: AppColors.white,
                 dotsColor: AppColors.transparent,
                 // selectableDayPredicate: (date) => date.day != 23,
-                locale: 'en_ISO',
+                // locale: 'en_ISO',
               ),
             ],
           ),

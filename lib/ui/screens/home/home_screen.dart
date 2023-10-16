@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_sun_c9/ui/screens/home/tabs/settings_tab/settings_tab.dart';
-import 'package:todo_sun_c9/ui/utils/app_colors.dart';
-
 import '../../bottom_sheets/add_bottom_sheet.dart';
 import 'tabs/list_tab/list_tab.dart';
 
@@ -19,22 +17,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: currentSelectedTabIndex == 0 ? ListTab() : SettingsTab(),
+      body: currentSelectedTabIndex == 0 ? const ListTab() : const SettingsTab(),
       bottomNavigationBar: buildBottomNav(),
-      floatingActionButton: buildFab(),
+      floatingActionButton: buildFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
   PreferredSizeWidget buildAppBar() => AppBar(
-        title: Text("To Do List"),
-        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        title: const Text("To Do List"),
+        toolbarHeight: MediaQuery.of(context).size.height * 0.10,
+    elevation: 0,
       );
 
   Widget buildBottomNav() => BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 8,
-        clipBehavior: Clip.hardEdge,
+    notchMargin: 8,
+    clipBehavior: Clip.hardEdge,
+    shape: const CircularNotchedRectangle(),
         child: BottomNavigationBar(
             onTap: (index) {
               currentSelectedTabIndex = index;
@@ -42,22 +41,23 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() {});
             },
             currentIndex: currentSelectedTabIndex,
-            items: [
+            items: const [
               BottomNavigationBarItem(icon: Icon(Icons.menu), label: ""),
               BottomNavigationBarItem(icon: Icon(Icons.settings), label: ""),
             ]),
       );
 
-  Widget buildFab() => FloatingActionButton(
+  Widget buildFAB() => FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
               isScrollControlled: true,
               context: context,
+              //Bug (KeyBoard)
               builder: (_) => Padding(
                     padding: MediaQuery.of(context).viewInsets,
-                    child: AddBottomSheet(),
+                    child: const AddBottomSheet(),
                   ));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       );
 }

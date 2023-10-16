@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class MyTextField extends StatelessWidget {
 String? hintText;
 TextEditingController controller;
-MyTextField({this.hintText,required this.controller});
+
+MyTextField({super.key, this.hintText,required this.controller});
 
   @override
   Widget build(BuildContext context) {
