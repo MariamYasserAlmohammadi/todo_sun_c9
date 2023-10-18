@@ -25,18 +25,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text("Login"),
+        title: const Text("Login"),
 toolbarHeight: MediaQuery.of(context).size.height * 0.1,
       ),
       body: SingleChildScrollView(
         child: Padding(
-            padding: EdgeInsets.all(14),
+            padding: const EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height:MediaQuery.of(context).size.height * .25 ,),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text("Welcome back !",style: TextStyle(
               fontSize: 24,
               color: Colors.black,
@@ -47,30 +47,30 @@ toolbarHeight: MediaQuery.of(context).size.height * 0.1,
               onChanged: (text){
                 email = text;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 label: Text(
                   "Email",
                 )
               ),
             ),
-            SizedBox(height: 8,),
+            const SizedBox(height: 8,),
             TextFormField(
               onChanged: (text){
                 password = text;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   label: Text(
                     "Password",
                   ),
               ),
             ),
-            SizedBox(height: 26,),
+            const SizedBox(height: 26,),
             ElevatedButton(
                 onPressed: (){
                   loginFun();
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 12),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16,horizontal: 12),
                   child: Row(
                     children: [
                       Text("Login",style: TextStyle(fontSize: 18),),
@@ -80,13 +80,13 @@ toolbarHeight: MediaQuery.of(context).size.height * 0.1,
                     ],
                   ),
                 )),
-            SizedBox(height: 18,),
+            const SizedBox(height: 18,),
             InkWell(
                 onTap: (
                     ){
                   Navigator.pushNamed(context, RegisterScreen.routeName);
                 },
-                child: Text("Create account",style: TextStyle(
+                child: const Text("Create account",style: TextStyle(
                   fontSize: 18,color: Colors.black45,
                 ),)),
           ],
@@ -102,12 +102,8 @@ toolbarHeight: MediaQuery.of(context).size.height * 0.1,
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       AppUser currentUser = await getUserFromFirestore(userCredential.user!.uid);
-
-
       hideLoading(context);
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-
-
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName,);
     } on FirebaseAuthException catch (error) {
       hideLoading(context);
       showErrorDialog(context, error.message ?? "Some thing went wrong");

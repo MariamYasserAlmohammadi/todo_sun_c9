@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_sun_c9/models/app_user.dart';
 import 'package:todo_sun_c9/models/todo_dm.dart';
 import 'package:todo_sun_c9/ui/providers/list_provider.dart';
 import 'package:todo_sun_c9/ui/utils/app_colors.dart';
@@ -78,21 +79,35 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
       ),
     );
   }
+  void showMyDatePicker() async {
+    selectedDate = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365))) ??
+        selectedDate;
+    setState(() {});
+  }
 
-  void addTodoFireStore() {
+  void addTodoFireStore() async{
     CollectionReference todosCollectionRef =
-        FirebaseFirestore.instance.collection(TodoDM.collectionName);
+    AppUser.collection().doc(AppUser.currentUser!.id).collection(TodoDM.collectionName);
     DocumentReference newEmptyDoc = todosCollectionRef.doc();
-    newEmptyDoc.set({
+     await newEmptyDoc.set({
       "id": newEmptyDoc.id,
       "title": titleController.text,
       "description": descriptionController.text,
       "date": selectedDate,
       "isDone": false,
-    }).timeout(Duration(milliseconds: 300), onTimeout: () {
-      provider.refreshTodoList();
-      Navigator.pop(context);
     });
+    provider.refreshTodoList();
+    Navigator.pop(context);
+    // .timeout(Duration(milliseconds: 300), onTimeout: () {
+    //   provider.refreshTodoList();
+    //   Navigator.pop(context);
+    // });
+
+
 // todosCollectionRef.add({
 //   "title" :titleController.text ,
 //   "description": descriptionController.text,
@@ -102,18 +117,8 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
 //
 // });
   }
-
-  void showMyDatePicker() async {
-    selectedDate = await showDatePicker(
-            context: context,
-            initialDate: selectedDate,
-            firstDate: DateTime.now(),
-            lastDate: DateTime.now().add(const Duration(days: 365))) ??
-        selectedDate;
-    setState(() {});
-  }
 }
-
+///طريقة عرض للداتا
 ///  Json -> java script object notation
 ///  {key : value}
 ///  key -> string

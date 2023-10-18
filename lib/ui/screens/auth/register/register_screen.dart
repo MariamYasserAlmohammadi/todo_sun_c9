@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text("Register"),
+        title: const Text("Register"),
         toolbarHeight: MediaQuery
             .of(context)
             .size
@@ -32,7 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(14),
+          padding: const EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onChanged: (text) {
                   userName = text;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     label: Text(
                       "UserName",
                     )),
@@ -63,37 +63,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onChanged: (text) {
                   email = text;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     label: Text(
                       "Email",
                     )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               TextFormField(
                 onChanged: (text) {
                   password = text;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     label: Text(
                       "Password",
                     )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26,
               ),
               ElevatedButton(
                   onPressed: () {
                     register();
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
                         vertical: 16, horizontal: 12),
                     child: Row(
                       children: [
                         Text(
-                          "Create Acccount",
+                          "Create Account",
                           style: TextStyle(fontSize: 18),
                         ),
                         Spacer(),
@@ -120,13 +120,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       // show loading
       showLoading(context);
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      AppUser newUser = AppUser(
-          id: userCredential.user!.uid, userName: userName, email: email);
+      UserCredential userCredential =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      AppUser newUser = AppUser(id: userCredential.user!.uid, userName: userName, email: email);
+
       await registerUserInFirestore(newUser);
+      AppUser.currentUser = newUser;
       // hide loading
       hideLoading(context);
+
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } on FirebaseAuthException catch (error) {
       hideLoading(context);

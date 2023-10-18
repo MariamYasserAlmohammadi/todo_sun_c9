@@ -18,7 +18,7 @@ class _ListTabState extends State<ListTab> {
   @override
   void initState() {
     super.initState();
-
+/// ااخر line ده لحد ما build تشتغل
     WidgetsBinding.instance.addPostFrameCallback((_) {
       provider.refreshTodoList();
     });
@@ -33,8 +33,8 @@ class _ListTabState extends State<ListTab> {
 
     return Column(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.12,
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.14,
           child: Stack(
             children: [
               Column(

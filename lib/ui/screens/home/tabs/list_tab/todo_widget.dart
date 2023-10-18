@@ -22,13 +22,7 @@ class TodoWidget extends StatefulWidget {
 class _TodoWidgetState extends State<TodoWidget> {
   late ListProvider provider;
 
-  // void initState() {
-  //   super.initState();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     provider.refreshTodoList();
-  //   });
-  // }
+
   @override
   Widget build(BuildContext context) {
     provider = Provider.of(context);
