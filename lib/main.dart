@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName:(context) => HomeScreen(),
         LoginScreen.routeName:(context) => LoginScreen(),
         RegisterScreen.routeName:(context) => RegisterScreen(),
-      EditScreen.routeName  :(buildcontext)=> EditScreen(),
+      EditScreen.routeName  :(context)=> EditScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: LoginScreen.routeName,
     );
   }
 }

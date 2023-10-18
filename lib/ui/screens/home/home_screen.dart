@@ -30,7 +30,9 @@ provider = Provider.of(context);
   }
 
   PreferredSizeWidget buildAppBar() => AppBar(
-        title:  Text("To Do List ${AppUser.currentUser!.userName}"),
+        title:  Text("To Do List "
+           // "${AppUser.currentUser!.userName}"
+            ),
         toolbarHeight: MediaQuery.of(context).size.height * 0.10,
     elevation: 0,
     actions: [

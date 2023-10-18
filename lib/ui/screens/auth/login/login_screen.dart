@@ -102,6 +102,7 @@ toolbarHeight: MediaQuery.of(context).size.height * 0.1,
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       AppUser currentUser = await getUserFromFirestore(userCredential.user!.uid);
+      AppUser.currentUser =currentUser;
       hideLoading(context);
       Navigator.pushReplacementNamed(context, HomeScreen.routeName,);
     } on FirebaseAuthException catch (error) {
