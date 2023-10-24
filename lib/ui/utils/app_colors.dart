@@ -10,5 +10,6 @@ abstract class AppColors{
   static const lightBlack = Color(0xff363636);
   static const black = Colors.black;
   static const grey = Color(0xffC8C9CB);
+  static const done = Colors.green;
 
 }

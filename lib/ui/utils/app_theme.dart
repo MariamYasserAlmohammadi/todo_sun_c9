@@ -9,9 +9,15 @@ abstract class AppTheme {
   static const TextStyle taskTitleTextStyle = TextStyle(
       fontWeight: FontWeight.bold, fontSize: 22, color: AppColors.primary);
 
+  static const TextStyle taskTitleDoneTextStyle = TextStyle(
+      fontWeight: FontWeight.bold, fontSize: 22, color: AppColors.done);
+
+
   static const TextStyle taskDescriptionTextStyle = TextStyle(
       fontWeight: FontWeight.normal, fontSize: 14, color: AppColors.lightBlack);
 
+  static const TextStyle taskDescriptionDoneTextStyle = TextStyle(
+      fontWeight: FontWeight.normal, fontSize: 14, color: AppColors.lightBlack);
   static const TextStyle bottomSheetTitleTextStyle = TextStyle(
       fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.lightBlack);
 
@@ -38,5 +44,7 @@ abstract class AppTheme {
           width: 4,
         )),
       ));
-  static ThemeData darkTheme = ThemeData();
+  static ThemeData darkTheme = ThemeData(
+
+  );
 }

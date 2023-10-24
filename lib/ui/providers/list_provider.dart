@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_sun_c9/models/app_user.dart';
 
 import '../../models/todo_dm.dart';
+import '../utils/dialog_utils.dart';
 
 // extension MyDateExtension on DateTime{
 //   DateTime getDateOnly (){
@@ -49,7 +50,8 @@ class ListProvider extends ChangeNotifier {
   }
 
   Future<void> editTodoDetails(TodoDM todoDm) {
-    CollectionReference<TodoDM> todosCollection = FirebaseFirestore.instance
+    CollectionReference<TodoDM> todosCollection =
+    AppUser.collection().doc(AppUser.currentUser!.id)
         .collection(TodoDM.collectionName)
         .withConverter<TodoDM>(fromFirestore: (docSnapShot, _) {
       Map json = docSnapShot.data() as Map;
@@ -64,9 +66,9 @@ class ListProvider extends ChangeNotifier {
       'date': todoDm.date
     });
   }
-
-  Future<void> deleteTodo(TodoDM todoDm) {
-    CollectionReference<TodoDM> todosCollectionRef = FirebaseFirestore.instance
+  Future<void> updateTodo(TodoDM todoDm) {
+    CollectionReference<TodoDM> todosCollection =
+    AppUser.collection().doc(AppUser.currentUser!.id)
         .collection(TodoDM.collectionName)
         .withConverter<TodoDM>(fromFirestore: (docSnapShot, _) {
       Map json = docSnapShot.data() as Map;
@@ -75,10 +77,14 @@ class ListProvider extends ChangeNotifier {
     }, toFirestore: (todoDm, _) {
       return todoDm.toJson();
     });
-    DocumentReference<TodoDM> itemDoc = todosCollectionRef.doc(todoDm.id);
-    return itemDoc.delete();
-
+    return todosCollection.doc(todoDm.id).update({
+      'isDone': todoDm.isDone,
+      'description': todoDm.description,
+      'date': todoDm.date
+    });
   }
+
+
 
 //   void setNewSelectedDay(DateTime selectedDay){
 //     selectedDate =selectedDay;

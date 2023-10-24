@@ -5,13 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:todo_sun_c9/models/todo_dm.dart';
 import 'package:todo_sun_c9/ui/utils/app_colors.dart';
 import 'package:todo_sun_c9/ui/utils/app_theme.dart';
+import 'package:todo_sun_c9/ui/utils/dialog_utils.dart';
 
+import '../../../../../models/app_user.dart';
 import '../../../../providers/list_provider.dart';
 import '../../../edit/edit_screen.dart';
 
 
 class TodoWidget extends StatefulWidget {
-  final TodoDM modal;
+  late TodoDM modal;
 
   TodoWidget({super.key, required this.modal});
 
@@ -39,12 +41,13 @@ class _TodoWidgetState extends State<TodoWidget> {
           children: [
             SlidableAction(
               onPressed: (_) {
-                provider.deleteTodo(widget.modal);
+                deleteTodoFromFireStore(widget.modal);
               },
               backgroundColor: Colors.red,
               foregroundColor: AppColors.white,
               icon: Icons.delete,
               label: "Delete",
+
             )
           ],
         ),
@@ -58,7 +61,10 @@ class _TodoWidgetState extends State<TodoWidget> {
             height: MediaQuery.of(context).size.height * 0.13,
             child: Row(
               children: [
-                const VerticalDivider(),
+                widget.modal.isDone? const VerticalDivider(
+                  color:  AppColors.done  ,
+                )
+                    :const VerticalDivider(),
                 const SizedBox(
                   width: 12,
                 ),
@@ -69,31 +75,77 @@ class _TodoWidgetState extends State<TodoWidget> {
                     children: [
                       Text(
                         widget.modal.title,
-                        style: AppTheme.taskTitleTextStyle,
+                        style:  widget.modal.isDone ? AppTheme.taskTitleDoneTextStyle :AppTheme.taskTitleTextStyle,
                       ),
                       Text(
                         widget.modal.description,
-                        style: AppTheme.taskDescriptionTextStyle,
+                        style: widget.modal.isDone ? AppTheme.taskDescriptionDoneTextStyle :AppTheme.taskDescriptionTextStyle,
                       )
                     ],
                   ),
                 ),
-                Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    child: const Icon(
-                      Icons.check,
-                      color: AppColors.white,
-                    ))
+                widget.modal.isDone ?
+                const Text("Is Done",style: TextStyle(
+                  color: AppColors.done,
+                  fontSize: 22,
+
+                ),)
+                : InkWell(
+                  onTap: (){
+                    CollectionReference<TodoDM> todosCollection =
+                    AppUser.collection().doc(AppUser.currentUser!.id)
+                        .collection(TodoDM.collectionName)
+                        .withConverter<TodoDM>(fromFirestore: (docSnapShot, _) {
+                      Map json = docSnapShot.data() as Map;
+                      TodoDM todo = TodoDM.fromJson(json);
+                      return todo;
+                    }, toFirestore: (todoDm, _) {
+                      return todoDm.toJson();
+                    });
+                    todosCollection.doc(widget.modal.id).update(
+                        {
+                            'isDone': true,
+                          }).then((value){
+                            provider.refreshTodoList();
+                    });
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      child: const Icon(
+                        Icons.check,
+                        color: AppColors.white,
+                      )),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+  void deleteTodoFromFireStore(TodoDM todoDm) {
+    showLoading(context);
+    CollectionReference<TodoDM> todosCollection =
+    AppUser.collection().doc(AppUser.currentUser!.id)
+        .collection(TodoDM.collectionName)
+        .withConverter<TodoDM>(fromFirestore: (docSnapShot, _) {
+      Map json = docSnapShot.data() as Map;
+      TodoDM todo = TodoDM.fromJson(json);
+      return todo;
+    }, toFirestore: (todoDm, _) {
+      return todoDm.toJson();
+    });
+    DocumentReference<TodoDM> itemDoc = todosCollection.doc(todoDm.id);
+    itemDoc.delete().then((value) {
+      provider.refreshTodoList();
+    });
+    hideLoading(context);
+
+
   }
 }

@@ -18,7 +18,6 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   TextEditingController titleController = TextEditingController();
-
   TextEditingController descriptionController = TextEditingController();
 
   late DateTime selectedDate;
